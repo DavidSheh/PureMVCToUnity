@@ -125,30 +125,27 @@ using System;
 using UnityEngine;
 using System.Collections;
 
-public class LoginScreen : MonoBehaviour
+public class LoginScreen : UIBase
 {
-    public static LoginScreen instance;
+    public event EventHandler Login;
 
     public UIInput name;
     public UIInput pwd;
 
-    void Awake()
+    protected override void Awake()
     {
-        instance = this;
-    }
+        base.Awake();
 
-    public event EventHandler Login;
+        if(null == name)
+        {
+            name = transform.FindChild("LblName").GetComponent<UIInput>();
+            
+        }
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        if(null == pwd)
+        {
+            pwd = transform.FindChild("LblPwd").GetComponent<UIInput>();
+        }
     }
 
     public void BtnLoginClick()
@@ -167,13 +164,13 @@ public class LoginScreen : MonoBehaviour
 
 public class LoginArgs : EventArgs
 {
-    public string name;
-    public string pwd;
+    public string Name { get; private set; }
+    public string Pwd { get; private set; }
 
     public LoginArgs(string name, string pwd)
     {
-        this.name = name;
-        this.pwd = pwd;
+        this.Name = name;
+        this.Pwd = pwd;
     }
 }
 

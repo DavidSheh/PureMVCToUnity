@@ -11,11 +11,11 @@ public class LoginScreenMediator : Mediator
 	public const string NAME = "LoginScreenMediator";
 	private LoginScreen dialog;
 
-	public LoginScreenMediator(LoginScreen viewComponent)
+	public LoginScreenMediator(UIBase viewComponent)
         : base(NAME, viewComponent)
     {
-        dialog = viewComponent;
-        viewComponent.Login += new EventHandler(Login);
+        dialog = (LoginScreen)viewComponent;
+        dialog.Login += new EventHandler(Login);
 	}
 
     public override IList<string> ListNotificationInterests()
@@ -52,8 +52,8 @@ public class LoginScreenMediator : Mediator
     void Login(object sender, EventArgs e)
     {
         LoginArgs args = (LoginArgs)e;
-        string name = args.name;// dialog.userName.getText();
-        string pass = args.pwd;// new string(dialog.password.getPassword());
+        string name = args.Name;// dialog.userName.getText();
+        string pass = args.Pwd;// new string(dialog.password.getPassword());
 		LoginVO userInfo = new LoginVO( name, pass );
 		Facade.NotifyObservers(new Notification(LoginFacade.SUBMIT_LOGIN, userInfo, null));
     }

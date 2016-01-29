@@ -44,7 +44,8 @@ public class LoginFacade : Facade
 	protected override void InitializeView() 
     {
 		base.InitializeView();
-		RegisterMediator(new LoginScreenMediator(LoginScreen.instance));
+        UIBase page = UIManager.Instance.ShowView("LoginPanel");
+        RegisterMediator(new LoginScreenMediator(page));
 	}
 
     public void Startup()
