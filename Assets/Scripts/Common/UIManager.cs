@@ -16,8 +16,16 @@ public class UIManager
 
     public UIBase ShowView(string name)
     {
-        UIBase page = Resources.Load(name, typeof(UIBase)) as UIBase;
-
+        //UIBase page = Resources.Load(name, typeof(UIBase)) as UIBase;
+        GameObject prefab = Resources.Load(name, typeof(GameObject)) as GameObject;
+        GameObject obj = Object.Instantiate(prefab);
+        obj.name = name;
+        UIBase page = obj.GetComponent<UIBase>();
+        GameObject parentObj = GameObject.Find("UI Root");
+        if(null != parentObj)
+        {
+            obj.transform.SetParent(parentObj.transform, false);
+        }
         return page;
     }
 }
