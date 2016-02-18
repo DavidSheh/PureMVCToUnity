@@ -17,15 +17,34 @@ public class UIManager
     public UIBase ShowView(string name)
     {
         //UIBase page = Resources.Load(name, typeof(UIBase)) as UIBase;
+        UIBase page = null;
+        if(pageDic.TryGetValue(name, out page))
+        {
+            page.gameObject.SetActive(true);
+            return page;
+        }
         GameObject prefab = Resources.Load(name, typeof(GameObject)) as GameObject;
         GameObject obj = Object.Instantiate(prefab);
         obj.name = name;
-        UIBase page = obj.GetComponent<UIBase>();
+        page = obj.GetComponent<UIBase>();
         GameObject parentObj = GameObject.Find("UI Root");
         if(null != parentObj)
         {
             obj.transform.SetParent(parentObj.transform, false);
         }
+
+        pageDic[name] = page;
+        return page;
+    }
+
+    public UIBase HideView(string name)
+    {
+        UIBase page = null;
+        if (pageDic.TryGetValue(name, out page))
+        {
+            page.gameObject.SetActive(false);
+        }
+
         return page;
     }
 }
